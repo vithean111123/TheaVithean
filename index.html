@@ -379,18 +379,53 @@
         }
         
         .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .skill-category {
-            background: rgba(20, 20, 40, 0.5);
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid rgba(160, 32, 240, 0.1);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.skill-category {
+    position: relative; /* Needed for ::before */
+    background: rgba(20, 20, 40, 0.5);
+    border-radius: 15px;
+    padding: 30px;
+    border: 2px solid transparent;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.skill-category:hover {
+    scale: 1.05;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(160, 32, 240, 0.4);
+}
+
+/* Animated border */
+.skill-category::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    padding: 2px; /* thickness of the border */
+    background: linear-gradient(90deg, 
+        #a020f0, #ff00ff, #00ffff, #a020f0);
+    background-size: 400% 400%;
+    animation: borderRun 6s linear infinite;
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude; /* For Firefox */
+    z-index: -1;
+    border-radius: 15px;
+}
+
+@keyframes borderRun {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
         
         .skill-category h3 {
             font-size: 1.5rem;
